@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: green-compute-scheduler
+  namespace: green-compute
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: green-compute-scheduler
+  template:
+    metadata:
+      labels:
+        app: green-compute-scheduler
+    spec:
+      containers:
+        - name: scheduler
+          image: green-compute-scheduler:local
+          imagePullPolicy: IfNotPresent
+          envFrom:
+            - configMapRef:
+                name: scheduler-config
+          resources:
+            requests:
+              cpu: 100m
+              memory: 128Mi
+            limits:
+              cpu: 500m
+              memory: 512Mi

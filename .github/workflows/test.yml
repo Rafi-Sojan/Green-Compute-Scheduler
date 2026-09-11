@@ -1,0 +1,22 @@
+name: Test
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  test:
+    runs-on: windows-2022
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Configure
+        run: cmake -S . -B build -A x64
+
+      - name: Build test target
+        run: cmake --build build --config Debug --parallel
+
+      - name: Run tests
+        run: ctest --test-dir build -C Debug --output-on-failure

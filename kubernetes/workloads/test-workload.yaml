@@ -1,0 +1,21 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: test-green-workload
+  namespace: green-compute
+spec:
+  backoffLimit: 1
+  template:
+    metadata:
+      labels:
+        workload: test
+    spec:
+      restartPolicy: Never
+      containers:
+        - name: workload
+          image: busybox:1.36
+          command: ["sh", "-c", "echo test workload completed"]
+          resources:
+            requests:
+              cpu: 50m
+              memory: 16Mi
